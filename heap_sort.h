@@ -30,7 +30,7 @@ public:
     }
 
     int getParent(int i_left){
-        return size_t(i_left/2);
+        return i_left/2;
     }
 
 
@@ -47,7 +47,7 @@ public:
         return getRight(parent_index) < size_s;
     }
 
-    int get_child(int parent_index){
+    int get_child_2(int parent_index){
         int left_i = getLeft(parent_index);
         int rigth_i = getRight(parent_index);
         if(has_right_child(parent_index)){
@@ -56,6 +56,14 @@ public:
             }
         }
         return left_i;
+    }
+    int get_child(int i){
+        auto left_index = getLeft(i);
+        if (has_right_child(i)) {
+            auto right_index = getRight(i);
+            return cmp(data[right_index], data[left_index]) ? left_index : right_index;
+        }
+        return left_index;
     }
 
     void percolateDown(int index){//padre
@@ -85,18 +93,17 @@ public:
     int size() { return data.size() - 1; } //Tamaño total
 
     void heap_sort(){
-        heapify(size());
+        heapify(size_s-1);
+//        cout<<"size_s:"<<size_s<<endl;
+//        cout<<"heapify: ";imprimir_lista();
 
-        while (size_s>2){ //>1
-            swap(data[1],data[size_s]);
+        while (size_s>=2){ //>1
+            swap(data[1],data[size_s-1]);
+//            cout<<"swap: ";imprimir_lista();
             size_s--;
             percolateDown(1);
         }
 
-        if(data.size()%2 ==0){//par
-            swap(data[1],data[2]);
-        }
-//        swap(data[1],data[2]);
 
 
 
@@ -109,7 +116,7 @@ public:
         cout<<endl;
     }
 
-    heap(Container<T> &c): data(c), size_s(c.size()-1)  {//Darle con nada en el index 0
+    heap(Container<T> &c): data(c), size_s(c.size())  {//Darle con nada en el index 0
 
     }
 
