@@ -13,7 +13,7 @@
 #include <iostream>
 using namespace std;
 
-template<typename T, template <typename ...> class Container=std::vector,typename Compare=std::less<T> >
+template<typename T, typename Compare=std::less<T>,template <typename ...> class Container=std::vector >
 class heap{
 private:
 public:
@@ -86,11 +86,19 @@ public:
 
     void heap_sort(){
         heapify(size());
-        while (size_s>=2){ //>1
+
+        while (size_s>2){ //>1
             swap(data[1],data[size_s]);
             size_s--;
             percolateDown(1);
         }
+
+        if(data.size()%2 ==0){//par
+            swap(data[1],data[2]);
+        }
+//        swap(data[1],data[2]);
+
+
 
     }
 
